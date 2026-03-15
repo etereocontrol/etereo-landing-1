@@ -132,6 +132,46 @@
       filter: drop-shadow(0 0 30px rgba(139,92,246,0.3));
       animation: float 4s ease-in-out infinite;
     }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--purple-accent);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(10,10,15,0.97);
+        backdrop-filter: blur(12px);
+        padding: 1.5rem 6%;
+        gap: 1.2rem;
+        border-bottom: 1px solid rgba(139,92,246,0.2);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.95rem; }
+    }
     @media (max-width: 768px) {
       .tako-hero {
         position: relative;
@@ -299,7 +339,8 @@
 
 <nav>
   <div class="nav-logo"><img src="logo-etereo.png.jpg.png" alt="ETÉREO" style="height:36px; width:auto; display:block;"></div>
-  <ul class="nav-links">
+  <button class="hamburger" id="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="nav-links">
     <li><a href="#problema">Problema</a></li>
     <li><a href="#solucion">Solución</a></li>
     <li><a href="#app-simulacion">App</a></li>
@@ -622,5 +663,20 @@
   setInterval(updateSim, 3000);
 </script>
 
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
+  </script>
 </body>
 </html>
